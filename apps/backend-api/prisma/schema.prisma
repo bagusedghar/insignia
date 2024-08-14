@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["omitApi"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  STAFF
+}
+
+model User {
+  id             Int       @id @default(autoincrement())
+  name           String
+  email          String    @unique
+  password       String
+  role           Role
+  lastActivityAt DateTime?
+  emailVerfiedAt DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  // workspaceId    Int?
+  // workspace      Workspace[]
+  // session      Session[]
+  // account      Account[]
+  // apiToken      ApiToken[]
+
+  @@map("user")
+}
+
+model Contact {
+  id          Int           @id @default(autoincrement())
+  name        String
+  email       String
+  address     String
+  phoneNumber String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  contactList ContactList[]
+  // workspaceId    Int?
+
+  @@map("contact")
+}
+
+model ContactList {
+  id             Int           @id @default(autoincrement())
+  contactGroupId Int?
+  contactId      Int?
+  contactGroup   ContactGroup? @relation(fields: [contactGroupId], references: [id])
+  contact        Contact?      @relation(fields: [contactId], references: [id])
+
+  @@map("contact_list")
+}
+
+model ContactGroup {
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  contactList ContactList[]
+
+  @@map("contact_group")
+}
