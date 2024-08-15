@@ -47,7 +47,9 @@ export class ContactService {
       where,
       orderBy,
       include: {
-        contactList: true
+        contactList: {
+          include: { contactGroup: true }
+        }
       }
     });
 
@@ -82,6 +84,8 @@ export class ContactService {
   }
 
   async createList(createContactListDto: CreateContactListDto): Promise<ContactListEntity> {
+    await this.prisma.contact.findUniqueOrThrow({ where: { id: createContactListDto.contactId } });
+    await this.prisma.contactGroup.findUniqueOrThrow({ where: { id: createContactListDto.contactGroupId } });
     return this.prisma.contactList.create({ data: createContactListDto });
   }
 
@@ -129,6 +133,9 @@ export class ContactService {
   }
 
   async updateList(id: number, updateContactListDto: UpdateContactListDto): Promise<ContactListEntity> {
+    await this.prisma.contact.findUniqueOrThrow({ where: { id: updateContactListDto.contactId } });
+    await this.prisma.contactGroup.findUniqueOrThrow({ where: { id: updateContactListDto.contactGroupId } });
+
     return this.prisma.contactList.update({
       where: { id },
       data: updateContactListDto,

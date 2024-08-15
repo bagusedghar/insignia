@@ -1,9 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from './entities/user.entity';
-import { Prisma, User } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { GetUserDto } from './dto/get-user.dto';
 import { plainToClass } from 'class-transformer';
 import { PrismaService } from '../prisma/prisma.service';

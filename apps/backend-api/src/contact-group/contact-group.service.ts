@@ -41,7 +41,9 @@ export class ContactGroupService {
       where,
       orderBy,
       include: {
-        contactList: true
+        contactList: {
+          include: { contact: true }
+        }
       }
     });
 

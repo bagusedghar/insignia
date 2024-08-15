@@ -33,6 +33,14 @@ export class ContactController {
     return this.contactService.findAll(query);
   }
 
+  @Get('list')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOkResponse({ type: PaginatedResponseDto<ContactListEntity> })
+  async findAllList(@Query() query: GetContactListDto): Promise<PaginatedResponseDto<ContactListEntity>> {
+    return this.contactService.findAllList(query);
+  }
+
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
@@ -65,15 +73,7 @@ export class ContactController {
     return this.contactService.createList(createContactListDto);
   }
 
-  @Get('list')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @ApiOkResponse({ type: PaginatedResponseDto<ContactListEntity> })
-  async findAllList(@Query() query: GetContactListDto): Promise<PaginatedResponseDto<ContactListEntity>> {
-    return this.contactService.findAllList(query);
-  }
-
-  @Get(':id')
+  @Get('list/:id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ type: ContactListEntity })
@@ -81,7 +81,7 @@ export class ContactController {
     return await this.contactService.findOneList(id);
   }
 
-  @Patch(':id')
+  @Patch('list/:id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ type: ContactListEntity })

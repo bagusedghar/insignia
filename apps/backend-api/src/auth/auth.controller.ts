@@ -30,7 +30,7 @@ export class AuthController {
     const createUserDto: CreateUserDto = { ...registerDto, role: Role.STAFF };
     const data = await this.userService.create(createUserDto);
     return {
-      message: 'User registered, please check email to verify account...',
+      message: 'User registered, please call api verify/:id to start login...',
       data
     }
   }
