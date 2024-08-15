@@ -56,8 +56,8 @@ model ContactList {
   id             Int           @id @default(autoincrement())
   contactGroupId Int?
   contactId      Int?
-  contactGroup   ContactGroup? @relation(fields: [contactGroupId], references: [id])
-  contact        Contact?      @relation(fields: [contactId], references: [id])
+  contactGroup   ContactGroup? @relation(fields: [contactGroupId], references: [id], onDelete: Cascade)
+  contact        Contact?      @relation(fields: [contactId], references: [id], onDelete: Cascade)
 
   @@map("contact_list")
 }
